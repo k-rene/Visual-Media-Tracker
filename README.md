@@ -14,3 +14,9 @@ and others like me, safe and healthy.
 - Calorie tracker
 - Nutrient tracker/calculator
 - Malnutrition detector
+
+## User Stories
+1. As a user, I want to be able to add a new meal to any given day
+2. As a user, I want to be able to review past meals
+3. As a user, I want to be able to modify past meals
+4. As a user, I want to be able to see an overview of the meals I have consumed
