@@ -8,10 +8,11 @@ users to easily identify shows that they have yet to complete if they went on a 
 
 This application can be used by anyone but is specifically *targeted at those who are inconsistent with their viewing 
 habits, as well as their media sources*. As someone who's interest in shows fluctuates like Vancouver's weather, but 
-hates not finishng a series I've started watching, this application is something I am in much need of. 
+hates not finishing a series I've started watching, this application is something I am in much need of. 
 
 ## User Stories
 1. As a user, I want to be able to add a new movie/tv show
-2. As a user, I want to be able to mark the viewing status -- 'to watch', 'watching', 'watched' etc
+2. As a user, I want to be able to mark the viewing status -- 'to watch', 'watching', 'watched'
 3. As a user, I want to be able to modify the viewing status
-4. As a user, I want to be able to see an overview of all the media I have added
+4. As a user, I want to be able to record the streaming platform where the piece of media is available to me
+5. As a user, I want to be able to see an overview of all the media I have added
