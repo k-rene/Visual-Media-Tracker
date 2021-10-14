@@ -29,7 +29,7 @@ public class MovieTest {
     @Test
     // do i test convert ot string or the get method?
     void testGetConvertStatusToString() {
-        assertEquals("want to watch", testMovie.getConvertedStatus());
+        assertEquals("to watch", testMovie.getConvertedStatus(0));
     }
 
     @Test
