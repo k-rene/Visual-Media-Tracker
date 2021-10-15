@@ -8,7 +8,8 @@ import model.Show;
 import java.util.List;
 import java.util.Scanner;
 
-// code based on teller app (https://github.students.cs.ubc.ca/CPSC210/TellerApp)
+// This class references code from this TellerApp
+// Link: https://github.students.cs.ubc.ca/CPSC210/TellerApp
 
 // Media Tracker Application
 public class TrackerApp {
