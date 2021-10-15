@@ -1,4 +1,4 @@
-# Kae-Rene's Personal Project: FIrst World Problems
+# Kae-Rene's Personal Project: First World Problems
 ## A Visual Media Tracker for Disaster Children
 
 **First World Problems** is a movie and TV show tracker. It's primary purpose is to **allow individuals with 
