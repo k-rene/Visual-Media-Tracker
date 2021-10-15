@@ -32,6 +32,8 @@ public class ShowTest {
     //!! you gotta test all the cases
     void testGetConvertStatusToString() {
         assertEquals("to watch", testShow.getConvertedStatus(0));
+        assertEquals("watching", testShow.getConvertedStatus(1));
+        assertEquals("watched", testShow.getConvertedStatus(2));
     }
 
     @Test
