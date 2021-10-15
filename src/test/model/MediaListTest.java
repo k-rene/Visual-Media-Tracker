@@ -3,6 +3,8 @@ package model;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class MediaListTest {
@@ -28,5 +30,19 @@ public class MediaListTest {
         testMediaList.addMedia(m2);
         testMediaList.removeMedia(m1);
         assertEquals(1, testMediaList.length());
+    }
+
+    @Test
+    void testGetListEmpty() {
+        List<Media> list = testMediaList.getList();
+        assertEquals(0, list.size());
+    }
+
+    @Test
+    void testGetListNotEmpty() {
+        testMediaList.addMedia(m1);
+        testMediaList.addMedia(m2);
+        List<Media> list = testMediaList.getList();
+        assertEquals(2, list.size());
     }
 }
