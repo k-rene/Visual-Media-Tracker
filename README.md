@@ -15,3 +15,5 @@ hates not finishing a series I've started watching, this application is somethin
 2. As a user, I want to be able to mark the viewing status -- 'to watch', 'watching', 'watched'
 3. As a user, I want to be able to modify the viewing status
 4. As a user, I want to be able to record the streaming platform where the piece of media is available to me
+5. As a user, I want to be able to save my media list to file
+6. As a user, I want to be able to load my media list from file upon application start up
