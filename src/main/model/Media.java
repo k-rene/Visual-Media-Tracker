@@ -41,7 +41,7 @@ public abstract class Media {
         if (s == 0) {
             msg = "to watch";
         } else if (s == 1) {
-            msg =  "watching";
+            msg = "watching";
         } else {
             msg = "watched";
         }

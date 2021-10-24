@@ -6,8 +6,8 @@ public class Show extends Media {
     // do we want to deal with total episodes?
 
     /*
-     * REQUIRES: showName is not an empty string
-     * EFFECTS: name of movie is set to movieName; status is an integer that corresponds to a status
+     * REQUIRES: showName is not an empty string; watchStatus is a valid status integer
+     * EFFECTS: name of show is set to showName; status is an integer that corresponds to a status
      */
     public Show(String showName, Integer watchStatus, String streamingPlatform, Integer epBookmark) {
         super(showName, watchStatus, streamingPlatform);
