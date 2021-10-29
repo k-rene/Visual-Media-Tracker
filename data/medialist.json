@@ -1,0 +1,15 @@
+{"mediaList": [
+    {
+        "name": "pls dont break",
+        "type": "movie",
+        "platform": "cramming lets go",
+        "status": 0
+    },
+    {
+        "bookmark": 5,
+        "name": "arghhh",
+        "type": "show",
+        "platform": "lets hope this works",
+        "status": 1
+    }
+]}
