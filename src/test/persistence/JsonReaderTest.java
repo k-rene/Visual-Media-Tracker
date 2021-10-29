@@ -47,7 +47,6 @@ public class JsonReaderTest extends JsonTest {
             assertEquals(2, ml.length());
             checkMedia("venom", 1,"netflix","movie", mediaList.get(0));
             checkMedia("gakuen babysitters", 2, "youtube", "show", mediaList.get(1));
-
         } catch (IOException e) {
             fail("Couldn't read from file");
         }

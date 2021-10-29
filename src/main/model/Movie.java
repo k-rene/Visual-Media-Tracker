@@ -1,5 +1,7 @@
 package model;
 
+import org.json.JSONObject;
+
 // Represents a movie having a name, status, and platform
 public class Movie extends Media {
 
@@ -9,6 +11,17 @@ public class Movie extends Media {
     public Movie(String movieName, Integer watchStatus, String streamingPlatform) {
         super(movieName, watchStatus, streamingPlatform);
         type = "movie";
+    }
+
+    @Override
+    public JSONObject toJson() {
+        JSONObject json = new JSONObject();
+        json.put("name", name);
+        json.put("status", status);
+        json.put("platform", platform);
+        json.put("type", type);
+
+        return json;
     }
 
 }

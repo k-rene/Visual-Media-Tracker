@@ -3,6 +3,8 @@ package model;
 import org.json.JSONObject;
 import persistence.Writable;
 
+import java.util.Objects;
+
 public abstract class Media implements Writable {
     protected String name;
     protected Integer status;
@@ -61,12 +63,17 @@ public abstract class Media implements Writable {
         status = newStatus;
     }
 
-    @Override //stub
-    public JSONObject toJson() {
-        JSONObject json = new JSONObject();
-        json.put("name", name);
-        json.put("status", status);
-        json.put("platform", platform);
-        return json;
-    }
+//    @Override //stub
+//    public JSONObject toJson() {
+//        JSONObject json = new JSONObject();
+//        json.put("name", name);
+//        json.put("status", status);
+//        json.put("platform", platform);
+//        json.put("type", type);
+//
+//        if (Objects.equals(type, "show")) {
+//            // how do i access bookmark??
+//        }
+//        return json;
+//    }
 }

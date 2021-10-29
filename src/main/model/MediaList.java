@@ -5,12 +5,11 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 // A list of Media
 public class MediaList {
     private List<Media> mediaList = new ArrayList<Media>();
-
-    //!!DO WE NEED A CONSTRUCTOR?
 
     /*   MODIFIES: this
      *   EFFECTS: adds Media m to mediaList
@@ -46,12 +45,19 @@ public class MediaList {
         return json;
     }
 
-    // EFFECTS: returns things in this workroom as a JSON array
+    // EFFECTS: returns things in this medialist as a JSON array
     private JSONArray mediasToJson() {
         JSONArray jsonArray = new JSONArray();
 
         for (Media ml : mediaList) {
-            jsonArray.put(ml.toJson());
+            String type = ml.getType();
+            if (Objects.equals(type, "show")) {
+                Show s = (Show) ml;
+                jsonArray.put(s.toJson());
+            } else {
+                Movie m = (Movie) ml;
+                jsonArray.put(m.toJson());
+            }
         }
 
         return jsonArray;

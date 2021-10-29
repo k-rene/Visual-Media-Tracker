@@ -1,5 +1,9 @@
 package model;
 
+import org.json.JSONObject;
+
+import java.util.Objects;
+
 // Represents a movie having a name, status, platform, and episode bookmark
 public class Show extends Media {
     private Integer bookmark;
@@ -24,5 +28,16 @@ public class Show extends Media {
      */
     public void updateBookmark(Integer newBookmark) {
         this.bookmark = newBookmark;
+    }
+
+    @Override
+    public JSONObject toJson() {
+        JSONObject json = new JSONObject();
+        json.put("name", name);
+        json.put("status", status);
+        json.put("platform", platform);
+        json.put("type", type);
+        json.put("bookmark", bookmark);
+        return json;
     }
 }
