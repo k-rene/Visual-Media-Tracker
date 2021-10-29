@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-// A list of Media
+// represents a list of media
 public class MediaList {
     private List<Media> mediaList = new ArrayList<Media>();
 

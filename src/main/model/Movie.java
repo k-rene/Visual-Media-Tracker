@@ -2,7 +2,7 @@ package model;
 
 import org.json.JSONObject;
 
-// Represents a movie having a name, status, and platform
+// Represents a movie having a name, status, streaming platform and type (movie)
 public class Movie extends Media {
 
     /* REQUIRES: movieName is not an empty string

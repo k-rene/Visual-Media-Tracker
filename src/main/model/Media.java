@@ -5,6 +5,7 @@ import persistence.Writable;
 
 import java.util.Objects;
 
+// represents a media that has a name, watch status, streaming platform and type (movie/show)
 public abstract class Media implements Writable {
     protected String name;
     protected Integer status;

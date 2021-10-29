@@ -4,10 +4,9 @@ import org.json.JSONObject;
 
 import java.util.Objects;
 
-// Represents a movie having a name, status, platform, and episode bookmark
+// Represents a show having a name, status, platform, episode bookmark,and type (show)
 public class Show extends Media {
     private Integer bookmark;
-    // do we want to deal with total episodes?
 
     /*
      * REQUIRES: showName is not an empty string; watchStatus is a valid status integer
