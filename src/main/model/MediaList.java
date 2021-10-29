@@ -1,5 +1,8 @@
 package model;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,5 +37,23 @@ public class MediaList {
      */
     public Integer length() {
         return mediaList.size();
+    }
+
+    //@Override
+    public JSONObject toJson() {
+        JSONObject json = new JSONObject();
+        json.put("mediaList", mediasToJson());
+        return json;
+    }
+
+    // EFFECTS: returns things in this workroom as a JSON array
+    private JSONArray mediasToJson() {
+        JSONArray jsonArray = new JSONArray();
+
+        for (Media ml : mediaList) {
+            jsonArray.put(ml.toJson());
+        }
+
+        return jsonArray;
     }
 }

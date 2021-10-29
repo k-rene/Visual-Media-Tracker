@@ -4,25 +4,30 @@ import model.Media;
 import model.MediaList;
 import model.Movie;
 import model.Show;
+import persistence.JsonReader;
+import persistence.JsonWriter;
 
 import java.util.List;
 import java.util.Scanner;
 
-// This class references code from this TellerApp
-// Link: https://github.students.cs.ubc.ca/CPSC210/TellerApp
+// This class references code from this TellerApp & this JsonSerializationDemo
+// TellerApp Link: https://github.students.cs.ubc.ca/CPSC210/TellerApp
+// Json Demo Link: https://github.students.cs.ubc.ca/CPSC210/JsonSerializationDemo.git
 
 // Media Tracker Application
-public class TrackerApp {
+public class MediaTrackerApp {
     private MediaList mediaList;
     private Scanner input;
+    private JsonWriter jsonWriter;
+    private JsonReader jsonReader;
 
-    public TrackerApp() {
-        runTracker();
+    public MediaTrackerApp() {
+        runMediaTracker();
     }
 
     //  MODIFIES: this
     //  EFFECTS: processes user input
-    private void runTracker() {
+    private void runMediaTracker() {
         boolean keepGoing = true;
         String command = null;
 
@@ -111,6 +116,7 @@ public class TrackerApp {
         }
     }
 
+    // REQUIERS: status be a valid status
     // MODIFIES: this
     // EFFECTS: adds a movie to the media list
     private void addMovie() {
@@ -133,6 +139,7 @@ public class TrackerApp {
         mediaList.addMedia(m1);
     }
 
+    // REQUIERS: status be a valid status
     // MODIFIES: this
     // EFFECTS: adds a show to the media list
     private void addShow() {

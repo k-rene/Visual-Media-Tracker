@@ -4,6 +4,6 @@ package ui;
 // Link: https://github.students.cs.ubc.ca/CPSC210/TellerApp
 public class Main {
     public static void main(String[] args) {
-        new TrackerApp();
+        new MediaTrackerApp();
     }
 }

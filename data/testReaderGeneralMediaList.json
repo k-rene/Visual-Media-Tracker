@@ -1,0 +1,17 @@
+{
+  "mediaList": [
+    {
+      "name": "venom",
+      "status": 1,
+      "platform": "netflix",
+      "type": "movie"
+    },
+    {
+      "name": "gakuen babysitters",
+      "status": 2,
+      "platform": "youtube",
+      "type": "show",
+      "bookmark": 0
+    }
+  ]
+}

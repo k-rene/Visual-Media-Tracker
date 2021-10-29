@@ -8,6 +8,7 @@ public class Movie extends Media {
      */
     public Movie(String movieName, Integer watchStatus, String streamingPlatform) {
         super(movieName, watchStatus, streamingPlatform);
+        type = "movie";
     }
 
 }

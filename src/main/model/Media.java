@@ -1,6 +1,9 @@
 package model;
 
-public abstract class Media {
+import org.json.JSONObject;
+import persistence.Writable;
+
+public abstract class Media implements Writable {
     protected String name;
     protected Integer status;
     /*  status meaning:
@@ -9,6 +12,7 @@ public abstract class Media {
      *   2 = watched
      */
     protected String platform;
+    protected String type;
 
     public Media(String mediaName, Integer watchStatus, String streamingPlatform) {
         this.name = mediaName;
@@ -32,6 +36,10 @@ public abstract class Media {
         return platform;
     }
 
+    public String getType() {
+        return type;
+    }
+
     /* REQUIRES: s be a valid status integer
      *  EFFECT: converts status integer into its corresponding string
      * */
@@ -51,5 +59,14 @@ public abstract class Media {
 
     public void updateStatus(Integer newStatus) {
         status = newStatus;
+    }
+
+    @Override //stub
+    public JSONObject toJson() {
+        JSONObject json = new JSONObject();
+        json.put("name", name);
+        json.put("status", status);
+        json.put("platform", platform);
+        return json;
     }
 }
