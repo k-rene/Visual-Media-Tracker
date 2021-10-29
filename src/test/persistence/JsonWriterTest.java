@@ -29,15 +29,15 @@ public class JsonWriterTest extends JsonTest {
     }
 
     @Test
-    void testWriterEmptyWorkroom() {
+    void testWriterEmptyMediaList() {
         try {
             MediaList ml = new MediaList();
-            JsonWriter writer = new JsonWriter("./data/testWriterEmptyWorkroom.json");
+            JsonWriter writer = new JsonWriter("./data/testWriterEmptyMediaList.json");
             writer.open();
             writer.write(ml);
             writer.close();
 
-            JsonReader reader = new JsonReader("./data/testWriterEmptyWorkroom.json");
+            JsonReader reader = new JsonReader("./data/testWriterEmptyMediaList.json");
             ml = reader.read();
             assertEquals(0, ml.length());
         } catch (IOException e) {
@@ -46,17 +46,17 @@ public class JsonWriterTest extends JsonTest {
     }
 
     @Test
-    void testWriterGeneralWorkroom() {
+    void testWriterGeneralMediaList() {
         try {
             MediaList ml = new MediaList();
             ml.addMedia(new Movie("venom", 1, "netflix"));
             ml.addMedia(new Show("gakuen babysitters", 2, "youtube", 0));
-            JsonWriter writer = new JsonWriter("./data/testWriterGeneralWorkroom.json");
+            JsonWriter writer = new JsonWriter("./data/testWriterGeneralMediaList.json");
             writer.open();
             writer.write(ml);
             writer.close();
 
-            JsonReader reader = new JsonReader("./data/testWriterGeneralWorkroom.json");
+            JsonReader reader = new JsonReader("./data/testWriterGeneralMediaList.json");
             ml = reader.read();
             List<Media> mediaList = ml.getList();
             assertEquals(2, mediaList.size());
