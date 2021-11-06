@@ -12,9 +12,10 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Scanner;
 
-// This class references code from this TellerApp & this JsonSerializationDemo
+// This class references code from this TellerApp, and this JsonSerializationDemo
 // TellerApp Link: https://github.students.cs.ubc.ca/CPSC210/TellerApp
 // Json Demo Link: https://github.students.cs.ubc.ca/CPSC210/JsonSerializationDemo.git
+
 
 // Media Tracker Application
 public class MediaTrackerApp {

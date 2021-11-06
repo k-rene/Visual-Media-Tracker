@@ -71,7 +71,6 @@ public class JsonReader {
         }
     }
 
-    // MODIFIES: ??
     // EFFECTS: parses movie from JSON object and adds it to medialist
     private void addMovie(MediaList ml, JSONObject jsonObject) {
         String name = jsonObject.getString("name");
@@ -81,7 +80,6 @@ public class JsonReader {
         ml.addMedia(m);
     }
 
-    // MODIFIES: ??
     // EFFECTS: parses show from JSON object and adds it to medialist
     private void addShow(MediaList ml, JSONObject jsonObject) {
         String name = jsonObject.getString("name");
