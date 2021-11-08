@@ -5,6 +5,8 @@ package ui;
 // Alarm Controller: https://github.students.cs.ubc.ca/CPSC210/AlarmSystem
 
 
+import model.Media;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
@@ -22,7 +24,7 @@ public class MediaTrackerUI extends JFrame {
      * Constructor sets up ???
      */
     public MediaTrackerUI() {
-        mta = new MediaTrackerApp();
+        //mta = new MediaTrackerApp();
 
         desktop = new JDesktopPane();
         desktop.addMouseListener(new DesktopFocusAction());
@@ -45,4 +47,8 @@ public class MediaTrackerUI extends JFrame {
         }
     }
 
+    // Play the game
+    public static void main(String[] args) {
+        new MediaTrackerUI();
+    }
 }
