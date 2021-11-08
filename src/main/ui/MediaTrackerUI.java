@@ -34,6 +34,8 @@ public class MediaTrackerUI extends JFrame {
         setContentPane(desktop);
         setTitle("Kae-Rene's Personal Project: First World Problems");
         setSize(WIDTH, HEIGHT);
+
+        setVisible(true);
     }
 
     /**
