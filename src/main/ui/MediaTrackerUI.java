@@ -5,11 +5,18 @@ package ui;
 // Alarm Controller: https://github.students.cs.ubc.ca/CPSC210/AlarmSystem
 
 
+import model.MediaList;
+import persistence.JsonReader;
+import persistence.JsonWriter;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.Scanner;
 
 
 public class MediaTrackerUI extends JFrame {
@@ -18,6 +25,12 @@ public class MediaTrackerUI extends JFrame {
     private MediaTrackerApp mta;
     private JDesktopPane desktop;
     private JInternalFrame controlPanel;
+
+    private MediaList mediaList;
+    private Scanner input;
+    private JsonWriter jsonWriter;
+    private JsonReader jsonReader;
+    private static final String JSON_STORE = "./data/medialist.json";
 
     /**
      * Constructor sets up main menu panel
@@ -36,16 +49,27 @@ public class MediaTrackerUI extends JFrame {
         setSize(WIDTH, HEIGHT);
 
         addButtonPanel();
-        
+
+        controlPanel.pack();
+        controlPanel.setVisible(true);
+        desktop.add(controlPanel);
+
+        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setVisible(true);
     }
+
+    // Start the media tracker
+    public static void main(String[] args) {
+        new MediaTrackerUI();
+    }
+
 
     /**
      * Helper to add control buttons.
      */
     private void addButtonPanel() {
         JPanel buttonPanel = new JPanel();
-        buttonPanel.setLayout(new GridLayout(4,2));
+        buttonPanel.setLayout(new GridLayout(3,2));
         buttonPanel.add(new JButton(new AddMediaAction()));
         buttonPanel.add(new JButton(new UpdateMediaAction()));
         buttonPanel.add(new JButton(new ViewAllMediaAction()));
@@ -66,11 +90,6 @@ public class MediaTrackerUI extends JFrame {
         }
     }
 
-    // Star the media tracker
-    public static void main(String[] args) {
-        new MediaTrackerUI();
-    }
-
     /**
      * Represents action to be taken when user wants to add a media
      * to the system.
@@ -83,13 +102,15 @@ public class MediaTrackerUI extends JFrame {
 
         @Override //STUB
         public void actionPerformed(ActionEvent evt) {
-            // any set up things go here
+            // generate a new window -- form like
+            // figure out how to save all that information into mediaList
+            // if it fails, throw and error message
 
-            try {
-                // do the process here
-            } catch (ActionFailedException e) { //
-                // exception thrown proecess here
-            }
+//            try {
+//                // do the process here
+//            } catch (ActionFailedException e) { //
+//                // exception thrown proecess here
+//            }
         }
 
     }
@@ -101,6 +122,7 @@ public class MediaTrackerUI extends JFrame {
 
     private class UpdateMediaAction extends AbstractAction {
 
+        // if you have time, maybe merge this into the viewing table rather than a seperate thing
         UpdateMediaAction() {
             super("Update Media");
         }
@@ -108,12 +130,6 @@ public class MediaTrackerUI extends JFrame {
         @Override // STUB
         public void actionPerformed(ActionEvent evt) {
             // any set up things go here
-
-            try {
-                // do the process here
-            } catch (ActionFailedException e) { //MediaNotFoundException?
-                // exception thrown proecess here
-            }
         }
     }
 
@@ -130,13 +146,13 @@ public class MediaTrackerUI extends JFrame {
 
         @Override //STUB
         public void actionPerformed(ActionEvent evt) {
-            // any set up things go here
+            // https://docs.oracle.com/javase/tutorial/uiswing/components/table.html
 
-            try {
-                // do the process here
-            } catch (ActionFailedException e) {
-                // exception thrown proecess here
-            }
+//            try {
+//                // do the process here
+//            } catch (ActionFailedException e) {
+//                // exception thrown proecess here
+//            }
         }
     }
 
@@ -153,12 +169,13 @@ public class MediaTrackerUI extends JFrame {
 
         @Override //STUB
         public void actionPerformed(ActionEvent evt) {
-            // any set up things go here
-
             try {
-                // do the process here
-            } catch (ActionFailedException e) {
-                // exception thrown proecess here
+                jsonWriter.open();
+                jsonWriter.write(mediaList);
+                jsonWriter.close();
+                System.out.println("Saved data to " + JSON_STORE);
+            } catch (FileNotFoundException e) {
+                System.out.println("Unable to write to file: " + JSON_STORE);
             }
         }
     }
@@ -176,12 +193,11 @@ public class MediaTrackerUI extends JFrame {
 
         @Override //STUB
         public void actionPerformed(ActionEvent evt) {
-            // any set up things go here
-
             try {
-                // do the process here
-            } catch (ActionFailedException e) {
-                // exception thrown proecess here
+                mediaList = jsonReader.read();
+                System.out.println("Loaded data from " + JSON_STORE);
+            } catch (IOException e) {
+                System.out.println("Unable to read from file: " + JSON_STORE);
             }
         }
     }
