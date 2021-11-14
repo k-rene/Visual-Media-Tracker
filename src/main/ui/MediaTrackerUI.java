@@ -1,10 +1,11 @@
 package ui;
 
-// This class references code from this TellerApp
+// This class references code from this TellerApp & AlarmSystem
 // TellerApp: https://github.students.cs.ubc.ca/CPSC210/TellerApp
 // Alarm Controller: https://github.students.cs.ubc.ca/CPSC210/AlarmSystem
 
 
+import model.Media;
 import model.MediaList;
 import persistence.JsonReader;
 import persistence.JsonWriter;
@@ -16,6 +17,9 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 import java.util.Scanner;
 
 
@@ -94,6 +98,8 @@ public class MediaTrackerUI extends JFrame {
      * Represents action to be taken when user wants to add a media
      * to the system.
      */
+    //!! https://www.tutorialspoint.com/
+    // what-are-the-differences-between-jtextfield-and-jtextarea-in-java
     private class AddMediaAction extends AbstractAction {
 
         AddMediaAction() {
@@ -102,15 +108,55 @@ public class MediaTrackerUI extends JFrame {
 
         @Override //STUB
         public void actionPerformed(ActionEvent evt) {
-            // generate a new window -- form like
-            // figure out how to save all that information into mediaList
-            // if it fails, throw and error message
+            JComboBox<String> comboBox = new JComboBox<String>();
+            comboBox.addItem("Movie");
+            comboBox.addItem("Show");
 
-//            try {
-//                // do the process here
-//            } catch (ActionFailedException e) { //
-//                // exception thrown proecess here
+//            String mediaType = JOptionPane.showInputDialog(null,
+//                    comboBox,
+//                    "Choose Media Type",
+//                    JOptionPane.QUESTION_MESSAGE);
+
+            JPanel mediaForm = new JPanel();
+
+            // Media Name Input
+            JLabel nameLabel = new JLabel("Name:");
+            JTextField nameField = new JTextField();
+            nameLabel.setLabelFor(nameField);
+            mediaForm.add(nameLabel);
+            mediaForm.add(nameField);
+
+            // Streaming Platform Input
+            JLabel platformLabel = new JLabel("Platform:");
+            JTextField platformField = new JTextField();
+            platformLabel.setLabelFor(platformField);
+            mediaForm.add(platformLabel);
+            mediaForm.add(platformField);
+
+            //Watch Status Input
+            JLabel statusLabel = new JLabel("Watch Status:");
+            JComboBox<String> statusField = new JComboBox<String>();
+            comboBox.addItem("To Watch");
+            comboBox.addItem("Watching");
+            comboBox.addItem("Watched");
+            statusLabel.setLabelFor(statusField);
+            mediaForm.add(statusLabel);
+            mediaForm.add(statusField);
+
+//            if (Objects.equals(mediaType, "Show")) {
+//                // Bookmark Input for Shows
+//                JLabel bookmarkLabel = new JLabel("Bookmark:");
+//                JTextField bookmarkField = new JTextField();
+//                bookmarkLabel.setLabelFor(bookmarkField);
+//                mediaForm.add(bookmarkLabel);
+//                mediaForm.add(bookmarkField);
 //            }
+
+            mediaForm.setVisible(true);
+            //addMedia();
+        }
+
+        private void addMedia() {
         }
 
     }
@@ -138,21 +184,30 @@ public class MediaTrackerUI extends JFrame {
      * to the system.
      */
 
+    // This class references code from this TellerApp & AlarmSystem
+    // TellerApp: https://docs.oracle.com/javase/tutorial/uiswing/examples/components/SimpleTableDemoProject/src/components/SimpleTableDemo.java
     private class ViewAllMediaAction extends AbstractAction {
-
         ViewAllMediaAction() {
             super("View All Media");
         }
 
         @Override //STUB
         public void actionPerformed(ActionEvent evt) {
-            // https://docs.oracle.com/javase/tutorial/uiswing/components/table.html
+            //super(new GridLayout(1,0));
 
-//            try {
-//                // do the process here
-//            } catch (ActionFailedException e) {
-//                // exception thrown proecess here
-//            }
+            String[] columnNames = {"Media Type",
+                    "Media Name",
+                    "Platform",
+                    "Watch Status",
+                    "Bookmark"};
+
+            Object[][] data = {
+                   // how do i loop through the mediaList and make a 2D array?
+            };
+
+            final JTable table = new JTable(data, columnNames);
+            table.setPreferredScrollableViewportSize(new Dimension(500, 70));
+            table.setFillsViewportHeight(true);
         }
     }
 
@@ -167,7 +222,7 @@ public class MediaTrackerUI extends JFrame {
             super("Save Current");
         }
 
-        @Override //STUB
+        @Override
         public void actionPerformed(ActionEvent evt) {
             try {
                 jsonWriter.open();
@@ -191,7 +246,7 @@ public class MediaTrackerUI extends JFrame {
             super("Load Existing");
         }
 
-        @Override //STUB
+        @Override
         public void actionPerformed(ActionEvent evt) {
             try {
                 mediaList = jsonReader.read();
