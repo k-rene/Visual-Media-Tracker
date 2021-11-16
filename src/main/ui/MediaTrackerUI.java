@@ -5,7 +5,7 @@ package ui;
 // Alarm Controller: https://github.students.cs.ubc.ca/CPSC210/AlarmSystem
 
 
-import model.Media;
+import jdk.nashorn.internal.scripts.JO;
 import model.MediaList;
 import persistence.JsonReader;
 import persistence.JsonWriter;
@@ -17,18 +17,15 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
 import java.util.Scanner;
 
 
-public class MediaTrackerUI extends JFrame {
+public class MediaTrackerUI { //extends JFrame
     private static final int WIDTH = 1000;
     private static final int HEIGHT = 1000;
-    private MediaTrackerApp mta;
-    private JDesktopPane desktop;
-    private JInternalFrame controlPanel;
+    // private MediaTrackerApp mta;
+    private JFrame frame;
+    //private JInternalFrame controlPanel;
 
     private MediaList mediaList;
     private Scanner input;
@@ -40,26 +37,33 @@ public class MediaTrackerUI extends JFrame {
      * Constructor sets up main menu panel
      */
     public MediaTrackerUI() {
-        // remove console UI stuff
-        // mta = new MediaTrackerApp();
+        frame = new JFrame();
 
-        desktop = new JDesktopPane();
-        desktop.addMouseListener(new DesktopFocusAction());
-        controlPanel = new JInternalFrame("Control Panel", false, false, false, false);
-        controlPanel.setLayout(new BorderLayout());
+        addButtons();
 
-        setContentPane(desktop);
-        setTitle("Kae-Rene's Personal Project: First World Problems");
-        setSize(WIDTH, HEIGHT);
+        frame.setSize(WIDTH, HEIGHT);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setTitle("First World Problems");
+        frame.pack();
+        frame.setVisible(true);
+    }
 
-        addButtonPanel();
+    /**
+     * Helper to add control buttons.
+     */
+    private void addButtons() {
+        JPanel buttonPanel = new JPanel();
+        buttonPanel.setBorder(BorderFactory.createEmptyBorder(30, 30, 30, 30));
+        buttonPanel.setLayout(new GridLayout(5,1));
 
-        controlPanel.pack();
-        controlPanel.setVisible(true);
-        desktop.add(controlPanel);
+        buttonPanel.add(new JButton(new AddMediaAction()));
+        buttonPanel.add(new JButton(new UpdateMediaAction()));
+        buttonPanel.add(new JButton(new ViewAllMediaAction()));
+        buttonPanel.add(new JButton(new SaveMediaAction()));
+        buttonPanel.add(new JButton(new LoadMediaAction()));
 
-        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        setVisible(true);
+        buttonPanel.setVisible(true);
+        frame.add(buttonPanel);
     }
 
     // Start the media tracker
@@ -67,96 +71,64 @@ public class MediaTrackerUI extends JFrame {
         new MediaTrackerUI();
     }
 
-
-    /**
-     * Helper to add control buttons.
-     */
-    private void addButtonPanel() {
-        JPanel buttonPanel = new JPanel();
-        buttonPanel.setLayout(new GridLayout(3,2));
-        buttonPanel.add(new JButton(new AddMediaAction()));
-        buttonPanel.add(new JButton(new UpdateMediaAction()));
-        buttonPanel.add(new JButton(new ViewAllMediaAction()));
-        buttonPanel.add(new JButton(new SaveMediaAction()));
-        buttonPanel.add(new JButton(new LoadMediaAction()));
-
-        controlPanel.add(buttonPanel, BorderLayout.WEST);
-    }
-
-    /**
-     * Represents action to be taken when user clicks desktop
-     * to switch focus. (Needed for key handling.)
-     */
-    private class DesktopFocusAction extends MouseAdapter {
-        @Override
-        public void mouseClicked(MouseEvent e) {
-            MediaTrackerUI.this.requestFocusInWindow();
-        }
-    }
-
     /**
      * Represents action to be taken when user wants to add a media
      * to the system.
      */
-    //!! https://www.tutorialspoint.com/
-    // what-are-the-differences-between-jtextfield-and-jtextarea-in-java
+
     private class AddMediaAction extends AbstractAction {
 
         AddMediaAction() {
             super("Add Media");
         }
 
-        @Override //STUB
+        // This method references code from these JOptionPane examples
+        // source: https://mkyong.com/swing/java-swing-joptionpane-showinputdialog-example/
         public void actionPerformed(ActionEvent evt) {
-            JComboBox<String> comboBox = new JComboBox<String>();
-            comboBox.addItem("Movie");
-            comboBox.addItem("Show");
+            Object[] options = {"Movie", "Show"};
+            String type = (String) JOptionPane.showInputDialog(null, "choose one","Media Type",
+                    JOptionPane.QUESTION_MESSAGE,
+                    null, options, options[0]);
 
-//            String mediaType = JOptionPane.showInputDialog(null,
-//                    comboBox,
-//                    "Choose Media Type",
-//                    JOptionPane.QUESTION_MESSAGE);
+            addMedia(type);
+        }
 
-            JPanel mediaForm = new JPanel();
+        // TA APPROVAL
+        //https://stackoverflow.com/questions/3180535/how-to-make-an-input-form-in-java-code-not-netbeans-using-jform
+        @SuppressWarnings({"checkstyle:MethodLength", "checkstyle:SuppressWarnings"})
+        private void addMedia(String type) {
+            JOptionPane mediaForm = new JOptionPane();
 
-            // Media Name Input
             JLabel nameLabel = new JLabel("Name:");
             JTextField nameField = new JTextField();
             nameLabel.setLabelFor(nameField);
-            mediaForm.add(nameLabel);
-            mediaForm.add(nameField);
-
-            // Streaming Platform Input
             JLabel platformLabel = new JLabel("Platform:");
             JTextField platformField = new JTextField();
             platformLabel.setLabelFor(platformField);
-            mediaForm.add(platformLabel);
-            mediaForm.add(platformField);
-
-            //Watch Status Input
             JLabel statusLabel = new JLabel("Watch Status:");
             JComboBox<String> statusField = new JComboBox<String>();
-            comboBox.addItem("To Watch");
-            comboBox.addItem("Watching");
-            comboBox.addItem("Watched");
+            statusField.addItem("To Watch");
+            statusField.addItem("Watching");
+            statusField.addItem("Watched");
             statusLabel.setLabelFor(statusField);
+
+            mediaForm.add(nameLabel);
+            mediaForm.add(nameField);
+            mediaForm.add(platformLabel);
+            mediaForm.add(platformField);
             mediaForm.add(statusLabel);
             mediaForm.add(statusField);
 
-//            if (Objects.equals(mediaType, "Show")) {
-//                // Bookmark Input for Shows
-//                JLabel bookmarkLabel = new JLabel("Bookmark:");
-//                JTextField bookmarkField = new JTextField();
-//                bookmarkLabel.setLabelFor(bookmarkField);
-//                mediaForm.add(bookmarkLabel);
-//                mediaForm.add(bookmarkField);
-//            }
+            if (type.equals("Show")) {
+                JLabel bookmarkLabel = new JLabel("Bookmark:");
+                JTextField bookmarkField = new JTextField();
+                bookmarkLabel.setLabelFor(bookmarkField);
+                mediaForm.add(bookmarkLabel);
+                mediaForm.add(bookmarkField);
+            }
 
             mediaForm.setVisible(true);
-            //addMedia();
-        }
-
-        private void addMedia() {
+            frame.add(mediaForm);
         }
 
     }
@@ -256,4 +228,5 @@ public class MediaTrackerUI extends JFrame {
             }
         }
     }
+
 }
