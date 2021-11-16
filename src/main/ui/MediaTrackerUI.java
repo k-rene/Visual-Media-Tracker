@@ -93,9 +93,6 @@ public class MediaTrackerUI { //extends JFrame
             addMedia(type);
         }
 
-        // TA APPROVAL
-        //https://stackoverflow.com/questions/3180535/how-to-make-an-input-form-in-java-code-not-netbeans-using-jform
-        @SuppressWarnings({"checkstyle:MethodLength", "checkstyle:SuppressWarnings"})
         private void addMedia(String type) {
             JOptionPane mediaForm = new JOptionPane();
 
