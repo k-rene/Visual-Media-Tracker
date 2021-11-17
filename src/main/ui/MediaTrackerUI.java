@@ -6,6 +6,7 @@ package ui;
 
 
 import jdk.nashorn.internal.scripts.JO;
+import model.Media;
 import model.MediaList;
 import model.Movie;
 import model.Show;
@@ -15,6 +16,7 @@ import persistence.JsonWriter;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.FileNotFoundException;
@@ -109,7 +111,6 @@ public class MediaTrackerUI { //extends JFrame
             addMedia(type);
         }
 
-        @SuppressWarnings({"checkstyle:MethodLength", "checkstyle:SuppressWarnings"})
         private void addMedia(String type) {
             JFrame mediaForm = new JFrame();
 
@@ -148,6 +149,7 @@ public class MediaTrackerUI { //extends JFrame
             moviePanel.add(platformField);
             moviePanel.add(statusLabel);
             moviePanel.add(statusField);
+            // HELP, how do i trigger the submit action after stuff has been filled in?
             mediaForm.add(new JButton(new SubmitMovieAction(nameField, platformField, statusField)),BorderLayout.SOUTH);
             mediaForm.add(moviePanel, BorderLayout.CENTER);
         }
@@ -192,16 +194,34 @@ public class MediaTrackerUI { //extends JFrame
      * to the system.
      */
 
-    // This class references code from this TellerApp & AlarmSystem
-    // TellerApp: https://docs.oracle.com/javase/tutorial/uiswing/examples/components/SimpleTableDemoProject/src/components/SimpleTableDemo.java
+    // This class references code from this oracle doc & codegrepper
+    // oracle doc: https://docs.oracle.com/javase/tutorial/uiswing/examples/
+    //              components/SimpleTableDemoProject/src/components/SimpleTableDemo.java
+    // codegrepper: https://www.codegrepper.com/code-examples/java/fill+a+2d+array+java
     private class ViewAllMediaAction extends AbstractAction {
         ViewAllMediaAction() {
             super("View All Media");
         }
 
-        @Override //STUB
+        // HELP how do i make this show up
         public void actionPerformed(ActionEvent evt) {
-            //super(new GridLayout(1,0));
+            int rows = mediaList.length();
+            Object[][] data = new Object[rows][5];
+
+            for (int row = 0; row < rows; row++) {
+                Media m = mediaList.getList().get(row);
+                data[row][0] = m.getType();
+                data[row][1] = m.getName();
+                data[row][2] = m.getPlatform();
+                data[row][3] = m.getConvertedStatus(m.getStatus());
+
+                if (m.getType() == "Show") {
+                    Show s = (Show) m;
+                    data[row][4] = s.getBookmark();
+                } else {
+                    data[row][4] = "n/a";
+                }
+            }
 
             String[] columnNames = {"Media Type",
                     "Media Name",
@@ -209,13 +229,11 @@ public class MediaTrackerUI { //extends JFrame
                     "Watch Status",
                     "Bookmark"};
 
-            Object[][] data = {
-                   // how do i loop through the mediaList and make a 2D array?
-            };
-
             final JTable table = new JTable(data, columnNames);
             table.setPreferredScrollableViewportSize(new Dimension(500, 70));
             table.setFillsViewportHeight(true);
+            table.setSize(1000, 1000);
+            table.setVisible(true);
         }
     }
 
