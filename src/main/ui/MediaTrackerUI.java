@@ -5,7 +5,6 @@ package ui;
 // Alarm Controller: https://github.students.cs.ubc.ca/CPSC210/AlarmSystem
 
 
-import jdk.nashorn.internal.scripts.JO;
 import model.Media;
 import model.MediaList;
 import model.Movie;
@@ -16,19 +15,13 @@ import persistence.JsonWriter;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Scanner;
 
 
-public class MediaTrackerUI { //extends JFrame
-    // private MediaTrackerApp mta;
+public class MediaTrackerUI {
     private JFrame frame;
-    //private JInternalFrame controlPanel;
-
     private MediaList mediaList;
     private Scanner input;
     private JsonWriter jsonWriter;
@@ -39,10 +32,10 @@ public class MediaTrackerUI { //extends JFrame
      * Constructor sets up main menu panel
      */
     public MediaTrackerUI() {
-        startUp();
-
         frame = new JFrame();
 
+        startUp();
+        addHeader();
         addButtons();
 
         frame.setSize(1000, 1000);
@@ -50,6 +43,29 @@ public class MediaTrackerUI { //extends JFrame
         frame.setTitle("First World Problems");
         frame.pack();
         frame.setVisible(true);
+    }
+
+    // this method references code from the below oracle doc
+    // source: https://docs.oracle.com/javase/tutorial/uiswing/components/icon.html
+    // MODIFIES: this
+    // EFFECTS: adds header image to frame
+    private void addHeader() {
+        // image source: https://animationsedts.tumblr.com/post/619679416987025408/rebloglike
+        ImageIcon icon = createImageIcon("./data/images/header.png", "disney movie header");
+        frame.add(icon); //HELP: how do i add it to frame
+    }
+
+    // this method references code from the below oracle doc
+    // source: https://docs.oracle.com/javase/tutorial/uiswing/components/icon.html
+    // EFFECTS: Returns an ImageIcon, or null if the path was invalid.
+    protected ImageIcon createImageIcon(String path, String description) {
+        java.net.URL imgURL = getClass().getResource(path);
+        if (imgURL != null) {
+            return new ImageIcon(imgURL, description);
+        } else {
+            System.err.println("Couldn't find file: " + path);
+            return null;
+        }
     }
 
     //  MODIFIES: this
@@ -71,7 +87,6 @@ public class MediaTrackerUI { //extends JFrame
         buttonPanel.setLayout(new GridLayout(5,1));
 
         buttonPanel.add(new JButton(new AddMediaAction()));
-        buttonPanel.add(new JButton(new UpdateMediaAction()));
         buttonPanel.add(new JButton(new ViewAllMediaAction()));
         buttonPanel.add(new JButton(new SaveMediaAction()));
         buttonPanel.add(new JButton(new LoadMediaAction()));
@@ -89,7 +104,6 @@ public class MediaTrackerUI { //extends JFrame
      * Represents action to be taken when user wants to add a media
      * to the system.
      */
-
     private class AddMediaAction extends AbstractAction {
         protected JTextField nameField;
         protected JTextField platformField;
@@ -103,7 +117,7 @@ public class MediaTrackerUI { //extends JFrame
         // This method references code from these JOptionPane examples
         // source: https://mkyong.com/swing/java-swing-joptionpane-showinputdialog-example/
         public void actionPerformed(ActionEvent evt) {
-            Object[] options = {"Movie", "Show"};
+            Object[] options = {"movie", "show"};
             String type = (String) JOptionPane.showInputDialog(null, "choose one","Media Type",
                     JOptionPane.QUESTION_MESSAGE,
                     null, options, options[0]);
@@ -111,21 +125,25 @@ public class MediaTrackerUI { //extends JFrame
             addMedia(type);
         }
 
+        // REQUIRES: type be a valid media type -- 'movie' or 'show'
+        // MODIFIES: this
+        // EFFECTS: generates an input form for new media details to be inputted
         private void addMedia(String type) {
             JFrame mediaForm = new JFrame();
 
             mediaForm.setSize(500, 300);
 
-            makeMovieForm(mediaForm);
+            makeMediaForm(mediaForm);
 
-            if (type.equals("Show")) {
+            if (type.equals("show")) {
                 makeShowForm(mediaForm);
             }
 
             mediaForm.setVisible(true);
         }
 
-        private void makeMovieForm(JFrame mediaForm) {
+        // EFFECTS: helper method to generate media form -- excludes details from show
+        private void makeMediaForm(JFrame mediaForm) {
             JPanel moviePanel = new JPanel();
             moviePanel.setLayout(new GridLayout(3, 2));
             moviePanel.setBorder(BorderFactory.createEmptyBorder(30, 30, 30, 30));
@@ -154,6 +172,7 @@ public class MediaTrackerUI { //extends JFrame
             mediaForm.add(moviePanel, BorderLayout.CENTER);
         }
 
+        // EFFECTS: helper method to generate parts of input form only relevant to show
         private void makeShowForm(JFrame mediaForm) {
             JPanel showPanel = new JPanel();
             showPanel.setLayout(new GridLayout(1, 2));
@@ -172,24 +191,6 @@ public class MediaTrackerUI { //extends JFrame
     }
 
     /**
-     * Represents action to be taken when user wants to update a media
-     * to the system.
-     */
-
-    private class UpdateMediaAction extends AbstractAction {
-
-        // if you have time, maybe merge this into the viewing table rather than a seperate thing
-        UpdateMediaAction() {
-            super("Update Media");
-        }
-
-        @Override // STUB
-        public void actionPerformed(ActionEvent evt) {
-            // any set up things go here
-        }
-    }
-
-    /**
      * Represents action to be taken when user wants to view all media
      * to the system.
      */
@@ -203,9 +204,27 @@ public class MediaTrackerUI { //extends JFrame
             super("View All Media");
         }
 
-        // HELP how do i make this show up
+        // HELP: how do i make this show up
         public void actionPerformed(ActionEvent evt) {
+            JFrame viewer = new JFrame();
+            JTable table = generateMediaTable();
+            JScrollPane scrollPane = new JScrollPane(table);
+
+            table.setPreferredScrollableViewportSize(new Dimension(500, 70));
+            table.setFillsViewportHeight(true);
+            table.setSize(400, 400);
+            table.setVisible(true);
+
+            viewer.setSize(500, 500);
+            viewer.setVisible(true);
+            viewer.add(scrollPane);
+        }
+
+        // EFFECTS: helper method to generate the JTable
+        private JTable generateMediaTable() {
             int rows = mediaList.length();
+
+            String[] columnNames = {"Media Type", "Media Name","Platform","Watch Status", "Bookmark"};
             Object[][] data = new Object[rows][5];
 
             for (int row = 0; row < rows; row++) {
@@ -215,25 +234,14 @@ public class MediaTrackerUI { //extends JFrame
                 data[row][2] = m.getPlatform();
                 data[row][3] = m.getConvertedStatus(m.getStatus());
 
-                if (m.getType() == "Show") {
+                if (m.getType().equals("show")) {
                     Show s = (Show) m;
                     data[row][4] = s.getBookmark();
                 } else {
                     data[row][4] = "n/a";
                 }
             }
-
-            String[] columnNames = {"Media Type",
-                    "Media Name",
-                    "Platform",
-                    "Watch Status",
-                    "Bookmark"};
-
-            final JTable table = new JTable(data, columnNames);
-            table.setPreferredScrollableViewportSize(new Dimension(500, 70));
-            table.setFillsViewportHeight(true);
-            table.setSize(1000, 1000);
-            table.setVisible(true);
+            return new JTable(data, columnNames);
         }
     }
 
@@ -283,6 +291,7 @@ public class MediaTrackerUI { //extends JFrame
         }
     }
 
+    // help: do i need these classes????
     private class SubmitMovieAction extends AbstractAction {
         String name;
         String platform;
@@ -314,7 +323,7 @@ public class MediaTrackerUI { //extends JFrame
             name = nameField.getText();
             platform = platformField.getText();
             status = statusField.getSelectedItem().toString();
-            bookmark = Integer.parseInt(bookmarkField.getText());
+            bookmark = Integer.valueOf(bookmarkField.getText());
         }
 
         @Override
