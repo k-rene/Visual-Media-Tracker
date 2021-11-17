@@ -7,6 +7,8 @@ package ui;
 
 import jdk.nashorn.internal.scripts.JO;
 import model.MediaList;
+import model.Movie;
+import model.Show;
 import persistence.JsonReader;
 import persistence.JsonWriter;
 
@@ -21,8 +23,6 @@ import java.util.Scanner;
 
 
 public class MediaTrackerUI { //extends JFrame
-    private static final int WIDTH = 1000;
-    private static final int HEIGHT = 1000;
     // private MediaTrackerApp mta;
     private JFrame frame;
     //private JInternalFrame controlPanel;
@@ -37,15 +37,27 @@ public class MediaTrackerUI { //extends JFrame
      * Constructor sets up main menu panel
      */
     public MediaTrackerUI() {
+        startUp();
+
         frame = new JFrame();
 
         addButtons();
 
-        frame.setSize(WIDTH, HEIGHT);
+        frame.setSize(1000, 1000);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setTitle("First World Problems");
         frame.pack();
         frame.setVisible(true);
+    }
+
+    //  MODIFIES: this
+    //  EFFECTS: initiates Tracker application
+    private void startUp() {
+        mediaList = new MediaList();
+        input = new Scanner(System.in);
+        input.useDelimiter("\n");
+        jsonWriter = new JsonWriter(JSON_STORE);
+        jsonReader = new JsonReader(JSON_STORE);
     }
 
     /**
@@ -77,6 +89,10 @@ public class MediaTrackerUI { //extends JFrame
      */
 
     private class AddMediaAction extends AbstractAction {
+        protected JTextField nameField;
+        protected JTextField platformField;
+        protected JComboBox<String> statusField;
+        protected JTextField bookmarkField;
 
         AddMediaAction() {
             super("Add Media");
@@ -93,39 +109,62 @@ public class MediaTrackerUI { //extends JFrame
             addMedia(type);
         }
 
+        @SuppressWarnings({"checkstyle:MethodLength", "checkstyle:SuppressWarnings"})
         private void addMedia(String type) {
-            JOptionPane mediaForm = new JOptionPane();
+            JFrame mediaForm = new JFrame();
+
+            mediaForm.setSize(500, 300);
+
+            makeMovieForm(mediaForm);
+
+            if (type.equals("Show")) {
+                makeShowForm(mediaForm);
+            }
+
+            mediaForm.setVisible(true);
+        }
+
+        private void makeMovieForm(JFrame mediaForm) {
+            JPanel moviePanel = new JPanel();
+            moviePanel.setLayout(new GridLayout(3, 2));
+            moviePanel.setBorder(BorderFactory.createEmptyBorder(30, 30, 30, 30));
 
             JLabel nameLabel = new JLabel("Name:");
-            JTextField nameField = new JTextField();
+            nameField = new JTextField();
             nameLabel.setLabelFor(nameField);
             JLabel platformLabel = new JLabel("Platform:");
-            JTextField platformField = new JTextField();
+            platformField = new JTextField();
             platformLabel.setLabelFor(platformField);
             JLabel statusLabel = new JLabel("Watch Status:");
-            JComboBox<String> statusField = new JComboBox<String>();
+            statusField = new JComboBox<String>();
             statusField.addItem("To Watch");
             statusField.addItem("Watching");
             statusField.addItem("Watched");
             statusLabel.setLabelFor(statusField);
 
-            mediaForm.add(nameLabel);
-            mediaForm.add(nameField);
-            mediaForm.add(platformLabel);
-            mediaForm.add(platformField);
-            mediaForm.add(statusLabel);
-            mediaForm.add(statusField);
+            moviePanel.add(nameLabel);
+            moviePanel.add(nameField);
+            moviePanel.add(platformLabel);
+            moviePanel.add(platformField);
+            moviePanel.add(statusLabel);
+            moviePanel.add(statusField);
+            mediaForm.add(new JButton(new SubmitMovieAction(nameField, platformField, statusField)),BorderLayout.SOUTH);
+            mediaForm.add(moviePanel, BorderLayout.CENTER);
+        }
 
-            if (type.equals("Show")) {
-                JLabel bookmarkLabel = new JLabel("Bookmark:");
-                JTextField bookmarkField = new JTextField();
-                bookmarkLabel.setLabelFor(bookmarkField);
-                mediaForm.add(bookmarkLabel);
-                mediaForm.add(bookmarkField);
-            }
+        private void makeShowForm(JFrame mediaForm) {
+            JPanel showPanel = new JPanel();
+            showPanel.setLayout(new GridLayout(1, 2));
+            showPanel.setBorder(BorderFactory.createEmptyBorder(0, 30, 30, 30));
 
-            mediaForm.setVisible(true);
-            frame.add(mediaForm);
+            JLabel bookmarkLabel = new JLabel("Bookmark:");
+            bookmarkField = new JTextField();
+            bookmarkLabel.setLabelFor(bookmarkField);
+            showPanel.add(bookmarkLabel);
+            showPanel.add(bookmarkField);
+
+            mediaForm.add(showPanel, BorderLayout.SOUTH);
+            mediaForm.add(new JButton(new SubmitShowAction(nameField, platformField, statusField, bookmarkField)));
         }
 
     }
@@ -226,4 +265,44 @@ public class MediaTrackerUI { //extends JFrame
         }
     }
 
+    private class SubmitMovieAction extends AbstractAction {
+        String name;
+        String platform;
+        String status;
+
+        SubmitMovieAction(JTextField nameField, JTextField platformField, JComboBox<String> statusField) {
+            super("Submit");
+            name = nameField.getText();
+            platform = platformField.getText();
+            status = statusField.getSelectedItem().toString();
+        }
+
+        @Override
+        public void actionPerformed(ActionEvent evt) {
+            Movie m1 = new Movie(name, status, platform);
+            mediaList.addMedia(m1);
+        }
+    }
+
+    private class SubmitShowAction extends AbstractAction {
+        String name;
+        String platform;
+        String status;
+        Integer bookmark;
+
+        SubmitShowAction(JTextField nameField, JTextField platformField,
+                         JComboBox<String> statusField, JTextField bookmarkField) {
+            super("Submit");
+            name = nameField.getText();
+            platform = platformField.getText();
+            status = statusField.getSelectedItem().toString();
+            bookmark = Integer.parseInt(bookmarkField.getText());
+        }
+
+        @Override
+        public void actionPerformed(ActionEvent evt) {
+            Show s1 = new Show(name, status, platform, bookmark);
+            mediaList.addMedia(s1);
+        }
+    }
 }

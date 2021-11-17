@@ -18,6 +18,12 @@ public class Show extends Media {
         type = "show";
     }
 
+    public Show(String showName, String watchStatus, String streamingPlatform, Integer epBookmark) {
+        super(showName, watchStatus, streamingPlatform);
+        this.bookmark = epBookmark;
+        type = "show";
+    }
+
     public Integer getBookmark() {
         return bookmark;
     }

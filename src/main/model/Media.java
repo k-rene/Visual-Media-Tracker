@@ -23,6 +23,12 @@ public abstract class Media implements Writable {
         this.platform = streamingPlatform;
     }
 
+    public Media(String mediaName, String watchStatus, String streamingPlatform) {
+        this.name = mediaName;
+        this.status = convertStatusToInt(watchStatus);
+        this.platform = streamingPlatform;
+    }
+
     public String getName() {
         return name;
     }
@@ -58,6 +64,20 @@ public abstract class Media implements Writable {
         }
 
         return msg;
+    }
+
+    private Integer convertStatusToInt(String s) {
+        Integer stat = -1;
+
+        if (s.equals("To Watch")) {
+            stat = 0;
+        } else if (s.equals("Watching")) {
+            stat = 1;
+        } else {
+            stat = 2;
+        }
+
+        return stat;
     }
 
     public void updateStatus(Integer newStatus) {

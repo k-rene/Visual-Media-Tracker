@@ -13,6 +13,11 @@ public class Movie extends Media {
         type = "movie";
     }
 
+    public Movie(String movieName, String watchStatus, String streamingPlatform) {
+        super(movieName, watchStatus, streamingPlatform);
+        type = "movie";
+    }
+
     @Override
     public JSONObject toJson() {
         JSONObject json = new JSONObject();
