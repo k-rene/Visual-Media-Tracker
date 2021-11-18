@@ -1,21 +1,15 @@
 {"mediaList": [
     {
-        "name": "save me now",
+        "name": "movieTest",
         "type": "movie",
-        "platform": "i want to cri",
-        "status": 2
+        "platform": "wheee",
+        "status": 1
     },
     {
-        "name": "why do i take cs",
-        "type": "movie",
-        "platform": "poor life decisions",
-        "status": 0
-    },
-    {
-      "name": "gahhhh",
-      "type": "show",
-      "platform": "so much pain",
-      "status": 1,
-      "bookmark": 12
+        "bookmark": 3,
+        "name": "showTest",
+        "type": "show",
+        "platform": "pls work",
+        "status": 1
     }
 ]}

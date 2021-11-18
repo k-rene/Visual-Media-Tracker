@@ -13,8 +13,10 @@ import persistence.JsonReader;
 import persistence.JsonWriter;
 
 import javax.swing.*;
+import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Scanner;
@@ -51,21 +53,7 @@ public class MediaTrackerUI {
     // EFFECTS: adds header image to frame
     private void addHeader() {
         // image source: https://animationsedts.tumblr.com/post/619679416987025408/rebloglike
-        ImageIcon icon = createImageIcon("./data/images/header.png", "disney movie header");
-        frame.add(icon); //HELP: how do i add it to frame
-    }
-
-    // this method references code from the below oracle doc
-    // source: https://docs.oracle.com/javase/tutorial/uiswing/components/icon.html
-    // EFFECTS: Returns an ImageIcon, or null if the path was invalid.
-    protected ImageIcon createImageIcon(String path, String description) {
-        java.net.URL imgURL = getClass().getResource(path);
-        if (imgURL != null) {
-            return new ImageIcon(imgURL, description);
-        } else {
-            System.err.println("Couldn't find file: " + path);
-            return null;
-        }
+        frame.add(new JLabel(new ImageIcon("./data/images/header.png")), BorderLayout.NORTH);
     }
 
     //  MODIFIES: this
@@ -84,15 +72,16 @@ public class MediaTrackerUI {
     private void addButtons() {
         JPanel buttonPanel = new JPanel();
         buttonPanel.setBorder(BorderFactory.createEmptyBorder(30, 30, 30, 30));
-        buttonPanel.setLayout(new GridLayout(5,1));
+        buttonPanel.setLayout(new GridLayout(1,4));
 
         buttonPanel.add(new JButton(new AddMediaAction()));
+        buttonPanel.add(new JButton(new UpdateStatusAction()));
         buttonPanel.add(new JButton(new ViewAllMediaAction()));
         buttonPanel.add(new JButton(new SaveMediaAction()));
         buttonPanel.add(new JButton(new LoadMediaAction()));
 
         buttonPanel.setVisible(true);
-        frame.add(buttonPanel);
+        frame.add(buttonPanel, BorderLayout.SOUTH);
     }
 
     // Start the media tracker
@@ -139,9 +128,29 @@ public class MediaTrackerUI {
                 makeShowForm(mediaForm);
             }
 
+            JButton button = new JButton("Submit");
+            button.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                    mediaForm.dispose();
+                    if (type.equals("show")) {
+                        Show s = new Show(nameField.getText(), statusField.getSelectedItem().toString(),
+                                platformField.getText(), Integer.valueOf(bookmarkField.getText()));
+                        mediaList.addMedia(s);
+                    } else {
+                        Movie m = new Movie(nameField.getText(), statusField.getSelectedItem().toString(),
+                                platformField.getText());
+                        mediaList.addMedia(m);
+                    }
+
+                    //new SubmitMovieAction(nameField, platformField, statusField);
+                }
+            });
+            mediaForm.add(button, BorderLayout.SOUTH);
             mediaForm.setVisible(true);
         }
 
+        // this method references code from this StackExchange post
+        // source: https://stackoverflow.com/questions/284899/how-do-you-add-an-actionlistener-onto-a-jbutton-in-java
         // EFFECTS: helper method to generate media form -- excludes details from show
         private void makeMediaForm(JFrame mediaForm) {
             JPanel moviePanel = new JPanel();
@@ -167,9 +176,8 @@ public class MediaTrackerUI {
             moviePanel.add(platformField);
             moviePanel.add(statusLabel);
             moviePanel.add(statusField);
-            // HELP, how do i trigger the submit action after stuff has been filled in?
-            mediaForm.add(new JButton(new SubmitMovieAction(nameField, platformField, statusField)),BorderLayout.SOUTH);
-            mediaForm.add(moviePanel, BorderLayout.CENTER);
+
+            mediaForm.add(moviePanel, BorderLayout.NORTH);
         }
 
         // EFFECTS: helper method to generate parts of input form only relevant to show
@@ -184,10 +192,26 @@ public class MediaTrackerUI {
             showPanel.add(bookmarkLabel);
             showPanel.add(bookmarkField);
 
-            mediaForm.add(showPanel, BorderLayout.SOUTH);
-            mediaForm.add(new JButton(new SubmitShowAction(nameField, platformField, statusField, bookmarkField)));
+            mediaForm.add(showPanel, BorderLayout.CENTER);
         }
 
+    }
+
+    /**
+     * Represents action to be taken when user wants to update viewing status
+     * to the system.
+     */
+
+    private class UpdateStatusAction extends AbstractAction {
+
+        UpdateStatusAction() {
+            super("UpdateStatus");
+        }
+
+        @Override
+        public void actionPerformed(ActionEvent evt) {
+            // STUB
+        }
     }
 
     /**
@@ -204,7 +228,6 @@ public class MediaTrackerUI {
             super("View All Media");
         }
 
-        // HELP: how do i make this show up
         public void actionPerformed(ActionEvent evt) {
             JFrame viewer = new JFrame();
             JTable table = generateMediaTable();
@@ -291,45 +314,45 @@ public class MediaTrackerUI {
         }
     }
 
-    // help: do i need these classes????
-    private class SubmitMovieAction extends AbstractAction {
-        String name;
-        String platform;
-        String status;
-
-        SubmitMovieAction(JTextField nameField, JTextField platformField, JComboBox<String> statusField) {
-            super("Submit");
-            name = nameField.getText();
-            platform = platformField.getText();
-            status = statusField.getSelectedItem().toString();
-        }
-
-        @Override
-        public void actionPerformed(ActionEvent evt) {
-            Movie m1 = new Movie(name, status, platform);
-            mediaList.addMedia(m1);
-        }
-    }
-
-    private class SubmitShowAction extends AbstractAction {
-        String name;
-        String platform;
-        String status;
-        Integer bookmark;
-
-        SubmitShowAction(JTextField nameField, JTextField platformField,
-                         JComboBox<String> statusField, JTextField bookmarkField) {
-            super("Submit");
-            name = nameField.getText();
-            platform = platformField.getText();
-            status = statusField.getSelectedItem().toString();
-            bookmark = Integer.valueOf(bookmarkField.getText());
-        }
-
-        @Override
-        public void actionPerformed(ActionEvent evt) {
-            Show s1 = new Show(name, status, platform, bookmark);
-            mediaList.addMedia(s1);
-        }
-    }
+//    // help: do i need these classes????
+//    private class SubmitMovieAction extends AbstractAction {
+//        String name;
+//        String platform;
+//        String status;
+//
+//        SubmitMovieAction(JTextField nameField, JTextField platformField, JComboBox<String> statusField) {
+//            super("Submit");
+//            name = nameField.getText();
+//            platform = platformField.getText();
+//            status = statusField.getSelectedItem().toString();
+//        }
+//
+//        @Override
+//        public void actionPerformed(ActionEvent evt) {
+//            Movie m1 = new Movie(name, status, platform);
+//            mediaList.addMedia(m1);
+//        }
+//    }
+//
+//    private class SubmitShowAction extends AbstractAction {
+//        String name;
+//        String platform;
+//        String status;
+//        Integer bookmark;
+//
+//        SubmitShowAction(JTextField nameField, JTextField platformField,
+//                         JComboBox<String> statusField, JTextField bookmarkField) {
+//            super("Submit");
+//            name = nameField.getText();
+//            platform = platformField.getText();
+//            status = statusField.getSelectedItem().toString();
+//            bookmark = Integer.valueOf(bookmarkField.getText());
+//        }
+//
+//        @Override
+//        public void actionPerformed(ActionEvent evt) {
+//            Show s1 = new Show(name, status, platform, bookmark);
+//            mediaList.addMedia(s1);
+//        }
+//    }
 }
