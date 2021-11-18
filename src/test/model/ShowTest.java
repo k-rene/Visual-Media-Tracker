@@ -6,50 +6,62 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class ShowTest {
-    private Show testShow;
+    private Show testShowInt;
+    private Show testShowStr;
 
     private String name = "Toy Story";
-    private Integer status = 0;
+    private Integer statusInt = 0;
+    private String statusStr = "To Watch";
     private String platform = "Netflix";
     private Integer bookmark = 12;
 
     @BeforeEach
     void runBefore() {
-        testShow = new Show(name, status, platform, bookmark);
+        testShowInt = new Show(name, statusInt, platform, bookmark);
+        testShowStr = new Show(name, statusStr, platform, bookmark);
     }
 
     @Test
-    void testConstructor() {
-        assertEquals(name, testShow.getName());
-        assertEquals(status, testShow.getStatus());
-        assertEquals(platform, testShow.getPlatform());
-        assertEquals(bookmark, testShow.getBookmark());
+    void testConstructorIntegerStatus() {
+        assertEquals(name, testShowInt.getName());
+        assertEquals(statusInt, testShowInt.getStatus());
+        assertEquals(platform, testShowInt.getPlatform());
+        assertEquals(bookmark, testShowInt.getBookmark());
     }
 
+    @Test
+    void testConstructorStringStatus() {
+        assertEquals(name, testShowStr.getName());
+        assertEquals(statusInt, testShowStr.getStatus());
+        assertEquals(platform, testShowStr.getPlatform());
+        assertEquals(bookmark, testShowStr.getBookmark());
+    }
 
     @Test
     void testGetConvertStatusToString() {
-        assertEquals("to watch", testShow.getConvertedStatus(0));
-        assertEquals("watching", testShow.getConvertedStatus(1));
-        assertEquals("watched", testShow.getConvertedStatus(2));
+        assertEquals("to watch", testShowInt.getConvertedStatus(0));
+        assertEquals("watching", testShowInt.getConvertedStatus(1));
+        assertEquals("watched", testShowInt.getConvertedStatus(2));
     }
 
     @Test
     void testConvertStatusToInt() {
-        assertEquals(0, testShow.convertStatusToInt("To Watch"));
-        assertEquals(1, testShow.convertStatusToInt("Watching"));
-        assertEquals(2, testShow.convertStatusToInt("Watched"));
+        assertEquals(0, testShowStr.convertStatusToInt("To Watch"));
+        assertEquals(1, testShowStr.convertStatusToInt("Watching"));
+        assertEquals(2, testShowStr.convertStatusToInt("Watched"));
     }
 
     @Test
     void testUpdateStatus() {
-        testShow.updateStatus(1);
-        assertEquals(1, testShow.getStatus());
+        testShowInt.updateStatus(1);
+        assertEquals(1, testShowInt.getStatus());
+        testShowStr.updateStatus("Watching");
+        assertEquals(1, testShowStr.getStatus());
     }
 
     @Test
     void testUpdateBookmark() {
-        testShow.updateBookmark(13);
-        assertEquals(13, testShow.getBookmark());
+        testShowInt.updateBookmark(13);
+        assertEquals(13, testShowInt.getBookmark());
     }
 }

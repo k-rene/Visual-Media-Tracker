@@ -6,41 +6,51 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class MovieTest {
-    private Movie testMovie;
+    private Movie testMovieInt;
+    private Movie testMovieStr;
 
     private String name = "Toy Story";
-    private Integer status = 0;
+    private Integer statusInt = 0;
+    private String statusStr = "To Watch";
     private String platform = "Netflix";
 
     @BeforeEach
     void runBefore() {
-        testMovie = new Movie(name, status, platform);
+        testMovieInt = new Movie(name, statusInt, platform);
+        testMovieStr = new Movie(name, statusStr, platform);
     }
 
     @Test
-    void testConstructor() {
-        assertEquals(name, testMovie.getName());
-        assertEquals(status, testMovie.getStatus());
-        assertEquals(platform, testMovie.getPlatform());
+    void testConstructorIntegerStatus() {
+        assertEquals(name, testMovieInt.getName());
+        assertEquals(statusInt, testMovieInt.getStatus());
+        assertEquals(platform, testMovieInt.getPlatform());
+    }
+
+    @Test
+    void testConstructorStringStatus() {
+        assertEquals(name, testMovieStr.getName());
+        assertEquals(statusInt, testMovieStr.getStatus());
+        assertEquals(platform, testMovieStr.getPlatform());
     }
 
     @Test
     void testGetConvertStatusToString() {
-        assertEquals("to watch", testMovie.getConvertedStatus(0));
-        assertEquals("watching", testMovie.getConvertedStatus(1));
-        assertEquals("watched", testMovie.getConvertedStatus(2));
+        assertEquals("to watch", testMovieInt.getConvertedStatus(0));
+        assertEquals("watching", testMovieInt.getConvertedStatus(1));
+        assertEquals("watched", testMovieInt.getConvertedStatus(2));
     }
 
     @Test
     void testConvertStatusToInt() {
-        assertEquals(0, testMovie.convertStatusToInt("To Watch"));
-        assertEquals(1, testMovie.convertStatusToInt("Watching"));
-        assertEquals(2, testMovie.convertStatusToInt("Watched"));
+        assertEquals(0, testMovieInt.convertStatusToInt("To Watch"));
+        assertEquals(1, testMovieInt.convertStatusToInt("Watching"));
+        assertEquals(2, testMovieInt.convertStatusToInt("Watched"));
     }
 
     @Test
     void testUpdateStatus() {
-        testMovie.updateStatus(1);
-        assertEquals(1, testMovie.getStatus());
+        testMovieInt.updateStatus(1);
+        assertEquals(1, testMovieInt.getStatus());
     }
 }
