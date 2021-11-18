@@ -45,4 +45,13 @@ public class MediaListTest {
         List<Media> list = testMediaList.getList();
         assertEquals(2, list.size());
     }
+
+    @Test
+    void testGetIndex() {
+        testMediaList.addMedia(m1);
+        testMediaList.addMedia(m2);
+        assertEquals(0,testMediaList.getIndex("Star Wars: Visions"));
+        assertEquals(1,testMediaList.getIndex("Flying Tigers"));
+        assertEquals(-1,testMediaList.getIndex("Not In List"));
+    }
 }

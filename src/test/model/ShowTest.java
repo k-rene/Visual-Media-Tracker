@@ -35,6 +35,13 @@ public class ShowTest {
     }
 
     @Test
+    void testConvertStatusToInt() {
+        assertEquals(0, testShow.convertStatusToInt("To Watch"));
+        assertEquals(1, testShow.convertStatusToInt("Watching"));
+        assertEquals(2, testShow.convertStatusToInt("Watched"));
+    }
+
+    @Test
     void testUpdateStatus() {
         testShow.updateStatus(1);
         assertEquals(1, testShow.getStatus());

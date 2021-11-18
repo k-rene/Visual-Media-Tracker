@@ -24,14 +24,18 @@ public class MovieTest {
         assertEquals(platform, testMovie.getPlatform());
     }
 
-    // how do you test exception handler (for handling if empty string is name)?
-
     @Test
-    // do i test convert ot string or the get method?
     void testGetConvertStatusToString() {
         assertEquals("to watch", testMovie.getConvertedStatus(0));
         assertEquals("watching", testMovie.getConvertedStatus(1));
         assertEquals("watched", testMovie.getConvertedStatus(2));
+    }
+
+    @Test
+    void testConvertStatusToInt() {
+        assertEquals(0, testMovie.convertStatusToInt("To Watch"));
+        assertEquals(1, testMovie.convertStatusToInt("Watching"));
+        assertEquals(2, testMovie.convertStatusToInt("Watched"));
     }
 
     @Test

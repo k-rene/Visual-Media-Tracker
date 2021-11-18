@@ -4,16 +4,15 @@ package ui;
 // TellerApp: https://github.students.cs.ubc.ca/CPSC210/TellerApp
 // Alarm Controller: https://github.students.cs.ubc.ca/CPSC210/AlarmSystem
 
-
 import model.Media;
 import model.MediaList;
 import model.Movie;
 import model.Show;
+import model.exceptions.EmptyMediaListException;
 import persistence.JsonReader;
 import persistence.JsonWriter;
 
 import javax.swing.*;
-import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -112,7 +111,11 @@ public class MediaTrackerUI {
                     JOptionPane.QUESTION_MESSAGE,
                     null, options, options[0]);
 
-            addMedia(type);
+            try {
+                addMedia(type);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
 
         // REQUIRES: type be a valid media type -- 'movie' or 'show'
@@ -211,15 +214,27 @@ public class MediaTrackerUI {
 
         @Override
         public void actionPerformed(ActionEvent evt) {
+            try {
+                updateStatus();
+            } catch (EmptyMediaListException e) {
+                JOptionPane.showMessageDialog(null, "No Media To Update", "System Error",
+                        JOptionPane.ERROR_MESSAGE);
+            }
+        }
+
+        private void updateStatus() throws EmptyMediaListException {
             List<Media> medias = mediaList.getList();
-            Object[] mediaNameOptions = new Object[mediaList.length()];
-            //Object[] mediaFieldOptions;
+            int length = mediaList.length();
+            Object[] mediaNameOptions = new Object[length];
             Object[] watchStatusOptions = {"To Watch", "Watching", "Watched"};
             Integer mediaIndex;
-            String mediaType;
 
-            for (int i = 0; i < mediaList.length(); i++) {
-                mediaNameOptions[i] = medias.get(i).getName();
+            if (length > 0) {
+                for (int i = 0; i < length; i++) {
+                    mediaNameOptions[i] = medias.get(i).getName();
+                }
+            } else {
+                throw new EmptyMediaListException();
             }
 
             String mediaName = (String) JOptionPane.showInputDialog(null, "choose one",

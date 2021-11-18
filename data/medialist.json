@@ -11,5 +11,18 @@
         "type": "show",
         "platform": "manic laughter",
         "status": 2
+    },
+    {
+        "name": "welp lets hope this works",
+        "type": "movie",
+        "platform": "perpetual pain",
+        "status": 1
+    },
+    {
+        "bookmark": 12,
+        "name": "i hate you i love you",
+        "type": "show",
+        "platform": "nobody else",
+        "status": 1
     }
 ]}

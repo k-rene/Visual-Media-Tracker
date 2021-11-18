@@ -49,7 +49,7 @@ public class MediaList {
                 index++;
             }
         }
-        return index;
+        return -1;
     }
 
     //@Override
