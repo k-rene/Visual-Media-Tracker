@@ -66,7 +66,8 @@ public abstract class Media implements Writable {
         return msg;
     }
 
-    private Integer convertStatusToInt(String s) {
+    // EFFECTS: converts string status received form input form into integer
+    public Integer convertStatusToInt(String s) {
         Integer stat = -1;
 
         if (s.equals("To Watch")) {
@@ -80,21 +81,15 @@ public abstract class Media implements Writable {
         return stat;
     }
 
+    // MODIFIES: this
+    // EFFECTS: updates the watch status to newStatus
     public void updateStatus(Integer newStatus) {
         status = newStatus;
     }
 
-//    @Override //stub
-//    public JSONObject toJson() {
-//        JSONObject json = new JSONObject();
-//        json.put("name", name);
-//        json.put("status", status);
-//        json.put("platform", platform);
-//        json.put("type", type);
-//
-//        if (Objects.equals(type, "show")) {
-//            // how do i access bookmark??
-//        }
-//        return json;
-//    }
+    // MODIFIES: this
+    // EFFECTS: updates the watch status to newStatus -- called when given input from GUI form
+    public void updateStatus(String newStatus) {
+        status = convertStatusToInt(newStatus);
+    }
 }

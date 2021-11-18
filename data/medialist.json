@@ -1,15 +1,15 @@
 {"mediaList": [
     {
-        "name": "movieTest",
+        "name": "go to hell",
         "type": "movie",
-        "platform": "wheee",
-        "status": 1
+        "platform": "insufferable fools",
+        "status": 0
     },
     {
         "bookmark": 3,
-        "name": "showTest",
+        "name": "watching it burn",
         "type": "show",
-        "platform": "pls work",
-        "status": 1
+        "platform": "manic laughter",
+        "status": 2
     }
 ]}

@@ -38,6 +38,20 @@ public class MediaList {
         return mediaList.size();
     }
 
+    // REQUIRES: mediaName is a media in mediaList
+    // EFFECTS: helper method to retrieve the retrieve the index in medialist of the given media
+    public Integer getIndex(String mediaName) {
+        Integer index = 0;
+        for (Media m: mediaList) {
+            if (m.getName().equals(mediaName)) {
+                return index;
+            } else {
+                index++;
+            }
+        }
+        return index;
+    }
+
     //@Override
     public JSONObject toJson() {
         JSONObject json = new JSONObject();

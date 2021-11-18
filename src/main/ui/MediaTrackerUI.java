@@ -19,6 +19,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.List;
 import java.util.Scanner;
 
 
@@ -210,7 +211,26 @@ public class MediaTrackerUI {
 
         @Override
         public void actionPerformed(ActionEvent evt) {
-            // STUB
+            List<Media> medias = mediaList.getList();
+            Object[] mediaNameOptions = new Object[mediaList.length()];
+            //Object[] mediaFieldOptions;
+            Object[] watchStatusOptions = {"To Watch", "Watching", "Watched"};
+            Integer mediaIndex;
+            String mediaType;
+
+            for (int i = 0; i < mediaList.length(); i++) {
+                mediaNameOptions[i] = medias.get(i).getName();
+            }
+
+            String mediaName = (String) JOptionPane.showInputDialog(null, "choose one",
+                    "Media Picker", JOptionPane.QUESTION_MESSAGE,null, mediaNameOptions, mediaNameOptions[0]);
+
+            mediaIndex = mediaList.getIndex(mediaName);
+
+            String newStatus = (String) JOptionPane.showInputDialog(null, "choose one",
+                    "Update Status", JOptionPane.QUESTION_MESSAGE,null,
+                    watchStatusOptions, watchStatusOptions[0]);
+            medias.get(mediaIndex).updateStatus(newStatus);
         }
     }
 
@@ -313,46 +333,4 @@ public class MediaTrackerUI {
             }
         }
     }
-
-//    // help: do i need these classes????
-//    private class SubmitMovieAction extends AbstractAction {
-//        String name;
-//        String platform;
-//        String status;
-//
-//        SubmitMovieAction(JTextField nameField, JTextField platformField, JComboBox<String> statusField) {
-//            super("Submit");
-//            name = nameField.getText();
-//            platform = platformField.getText();
-//            status = statusField.getSelectedItem().toString();
-//        }
-//
-//        @Override
-//        public void actionPerformed(ActionEvent evt) {
-//            Movie m1 = new Movie(name, status, platform);
-//            mediaList.addMedia(m1);
-//        }
-//    }
-//
-//    private class SubmitShowAction extends AbstractAction {
-//        String name;
-//        String platform;
-//        String status;
-//        Integer bookmark;
-//
-//        SubmitShowAction(JTextField nameField, JTextField platformField,
-//                         JComboBox<String> statusField, JTextField bookmarkField) {
-//            super("Submit");
-//            name = nameField.getText();
-//            platform = platformField.getText();
-//            status = statusField.getSelectedItem().toString();
-//            bookmark = Integer.valueOf(bookmarkField.getText());
-//        }
-//
-//        @Override
-//        public void actionPerformed(ActionEvent evt) {
-//            Show s1 = new Show(name, status, platform, bookmark);
-//            mediaList.addMedia(s1);
-//        }
-//    }
 }
