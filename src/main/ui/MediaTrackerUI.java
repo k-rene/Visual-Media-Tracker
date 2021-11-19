@@ -8,7 +8,7 @@ import model.Media;
 import model.MediaList;
 import model.Movie;
 import model.Show;
-import exceptions.EmptyMediaListException;
+import ui.exceptions.EmptyMediaListException;
 import persistence.JsonReader;
 import persistence.JsonWriter;
 
