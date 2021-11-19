@@ -24,5 +24,12 @@
         "type": "show",
         "platform": "nobody else",
         "status": 1
+    },
+    {
+        "bookmark": 12,
+        "name": "so take your excuses and go",
+        "type": "show",
+        "platform": "too tired for this bs",
+        "status": 2
     }
 ]}
