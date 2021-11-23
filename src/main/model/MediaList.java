@@ -52,6 +52,12 @@ public class MediaList {
         return -1;
     }
 
+    // REQUIRES: index be a valid index
+    // EFFECTS: return the media stored at index i
+    public Media getMedia(int i) {
+        return mediaList.get(i);
+    }
+
     //@Override
     public JSONObject toJson() {
         JSONObject json = new JSONObject();

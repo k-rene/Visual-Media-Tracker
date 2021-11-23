@@ -76,6 +76,7 @@ public class MediaTrackerUI {
 
         buttonPanel.add(new JButton(new AddMediaAction()));
         buttonPanel.add(new JButton(new UpdateStatusAction()));
+        buttonPanel.add(new JButton(new RemoveMediaAction()));
         buttonPanel.add(new JButton(new ViewAllMediaAction()));
         buttonPanel.add(new JButton(new SaveMediaAction()));
         buttonPanel.add(new JButton(new LoadMediaAction()));
@@ -250,14 +251,52 @@ public class MediaTrackerUI {
     }
 
     /**
-     * Represents action to be taken when user wants to view all media
+     * Represents action to be taken when user wants to add a media
      * to the system.
      */
+    private class RemoveMediaAction extends AbstractAction {
 
-    // This class references code from this oracle doc & codegrepper
-    // oracle doc: https://docs.oracle.com/javase/tutorial/uiswing/examples/
-    //              components/SimpleTableDemoProject/src/components/SimpleTableDemo.java
-    // codegrepper: https://www.codegrepper.com/code-examples/java/fill+a+2d+array+java
+        RemoveMediaAction() {
+            super("Remove Media");
+        }
+
+        // This method references code from these JOptionPane examples
+        // source: https://mkyong.com/swing/java-swing-joptionpane-showinputdialog-example/
+        public void actionPerformed(ActionEvent evt) {
+            try {
+                removeMedia();
+            } catch (EmptyMediaListException e) {
+                JOptionPane.showMessageDialog(null, "No Media To Remove", "System Error",
+                        JOptionPane.ERROR_MESSAGE);
+            }
+        }
+
+        private void removeMedia() throws EmptyMediaListException {
+            List<Media> medias = mediaList.getList();
+            int length = mediaList.length();
+            Object[] mediaNameOptions = new Object[length];
+
+            if (length > 0) {
+                for (int i = 0; i < length; i++) {
+                    mediaNameOptions[i] = medias.get(i).getName();
+                }
+            } else {
+                throw new EmptyMediaListException();
+            }
+
+            String mediaName = (String) JOptionPane.showInputDialog(null, "choose one",
+                    "Media Picker", JOptionPane.QUESTION_MESSAGE,null, mediaNameOptions, mediaNameOptions[0]);
+
+            Integer mediaIndex = mediaList.getIndex(mediaName);
+            Media m = mediaList.getMedia(mediaIndex);
+            mediaList.removeMedia(m);
+        }
+    }
+
+    /**
+     * Represents action to be taken when user wants to remove a media
+     * from the system.
+     */
     private class ViewAllMediaAction extends AbstractAction {
         ViewAllMediaAction() {
             super("View All Media");
