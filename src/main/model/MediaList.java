@@ -16,6 +16,7 @@ public class MediaList {
      */
     public void addMedia(Media m) {
         mediaList.add(m);
+        EventLog.getInstance().logEvent(new Event("Media Added."));
     }
 
     /*   MODIFIES: this
@@ -23,6 +24,7 @@ public class MediaList {
      */
     public void removeMedia(Media m) {
         mediaList.remove(m);
+        EventLog.getInstance().logEvent(new Event("Media Removed."));
     }
 
     /*   MODIFIES: this

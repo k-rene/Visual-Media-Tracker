@@ -17,3 +17,15 @@ hates not finishing a series I've started watching, this application is somethin
 4. As a user, I want to be able to record the streaming platform where the piece of media is available to me
 5. As a user, I want to be able to save my media list to file
 6. As a user, I want to be able to load my media list from file upon application start up
+
+## Phase 4: Task 2
+
+Tue Nov 23 21:42:02 PST 2021
+Media Added.
+
+Tue Nov 23 21:42:09 PST 2021
+Media Status Updated.
+
+Tue Nov 23 21:42:13 PST 2021
+Media Removed.
+

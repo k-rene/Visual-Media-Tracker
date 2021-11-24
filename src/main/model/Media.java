@@ -91,5 +91,6 @@ public abstract class Media implements Writable {
     // EFFECTS: updates the watch status to newStatus -- called when given input from GUI form
     public void updateStatus(String newStatus) {
         status = convertStatusToInt(newStatus);
+        EventLog.getInstance().logEvent(new Event("Media Status Updated."));
     }
 }

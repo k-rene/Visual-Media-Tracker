@@ -3,11 +3,11 @@ package ui;
 // This class references code from this TellerApp & AlarmSystem
 // TellerApp: https://github.students.cs.ubc.ca/CPSC210/TellerApp
 // Alarm Controller: https://github.students.cs.ubc.ca/CPSC210/AlarmSystem
+// StackOverflow: https://stackoverflow.com/questions/60516720/java-how-to-print-message-when-a-jframe-is-closed
 
-import model.Media;
-import model.MediaList;
-import model.Movie;
-import model.Show;
+import model.*;
+import model.Event;
+import org.w3c.dom.events.EventException;
 import ui.exceptions.EmptyMediaListException;
 import persistence.JsonReader;
 import persistence.JsonWriter;
@@ -30,6 +30,9 @@ public class MediaTrackerUI {
     private JsonReader jsonReader;
     private static final String JSON_STORE = "./data/medialist.json";
 
+    // This method references code from the following StackOverflow post
+    // https://stackoverflow.com/questions/60516720/java-how-to-print-message-when-a-jframe-is-closed
+
     /**
      * Constructor sets up main menu panel
      */
@@ -41,10 +44,27 @@ public class MediaTrackerUI {
         addButtons();
 
         frame.setSize(1000, 1000);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         frame.setTitle("First World Problems");
         frame.pack();
         frame.setVisible(true);
+
+        frame.addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+                initLogPrint();
+                System.exit(0);
+            }
+        });
+    }
+
+    // EFFECTS: helper method to initiate log printing
+    private void initLogPrint() {
+        EventLog eventLog = EventLog.getInstance();
+        for (Event next : eventLog) {
+            System.out.println(next.toString() + "\n");
+        }
+
     }
 
     // this method references code from the below oracle doc

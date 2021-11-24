@@ -13,12 +13,6 @@
         "status": 2
     },
     {
-        "name": "welp lets hope this works",
-        "type": "movie",
-        "platform": "perpetual pain",
-        "status": 1
-    },
-    {
         "bookmark": 12,
         "name": "i hate you i love you",
         "type": "show",
@@ -31,12 +25,5 @@
         "type": "show",
         "platform": "too tired for this bs",
         "status": 2
-    },
-    {
-        "bookmark": 3,
-        "name": "nightmares",
-        "type": "show",
-        "platform": "wheee",
-        "status": 1
     }
 ]}
