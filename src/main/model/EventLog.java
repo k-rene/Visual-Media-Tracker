@@ -1,8 +1,8 @@
 package model;
 
-        import java.util.ArrayList;
-        import java.util.Collection;
-        import java.util.Iterator;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
 
 /**
  * Represents a log of alarm system events.
@@ -30,8 +30,9 @@ public class EventLog implements Iterable<Event> {
      * @return  instance of EventLog
      */
     public static EventLog getInstance() {
-        if (theLog == null)
+        if (theLog == null) {
             theLog = new EventLog();
+        }
 
         return theLog;
     }
