@@ -64,7 +64,6 @@ public class MediaTrackerUI {
         for (Event next : eventLog) {
             System.out.println(next.toString() + "\n");
         }
-
     }
 
     // this method references code from the below oracle doc

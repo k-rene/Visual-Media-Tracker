@@ -29,3 +29,8 @@ Media Status Updated.
 Tue Nov 23 21:42:13 PST 2021
 Media Removed.
 
+## Phase 4: Task 3
+As seen in the UML diagram, an abstract class Media was created to refactor duplicate code in Movie and Show. However, 
+Media has a Status field of type String. I believe that this field could be made into a Status enum class instead that 
+had the values 'To Watch', 'Watching', and 'Watched'. This would  make it easier to standardise the status, as well as a 
+smoother transition between the console interface implementation and GUI. 
