@@ -18,7 +18,7 @@ hates not finishing a series I've started watching, this application is somethin
 5. As a user, I want to be able to save my media list to file
 6. As a user, I want to be able to load my media list from file upon application start up
 
-## Phase 4: Task 2
+## Console Tests Log
 
 Tue Nov 23 21:42:02 PST 2021
 Media Added.
@@ -29,7 +29,7 @@ Media Status Updated.
 Tue Nov 23 21:42:13 PST 2021
 Media Removed.
 
-## Phase 4: Task 3
+## Documentation of Future Improvements
 As seen in the UML diagram, an abstract class Media was created to refactor duplicate code in Movie and Show. However, 
 Media has a Status field of type String. I believe that this field could be made into a Status enum class instead that 
 had the values 'To Watch', 'Watching', and 'Watched'. This would  make it easier to standardise the status, as well as a 

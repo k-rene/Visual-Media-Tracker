@@ -25,5 +25,11 @@
         "type": "show",
         "platform": "too tired for this bs",
         "status": 2
+    },
+    {
+        "name": "much pain",
+        "type": "movie",
+        "platform": "pain",
+        "status": 2
     }
 ]}
